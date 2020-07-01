@@ -34,7 +34,7 @@ dependencies {
 	implementation "org.terasoluna.gfw:terasoluna-gfw-web-dependencies:"             + getProperty("terasoluna.version")
 	implementation "org.terasoluna.gfw:terasoluna-gfw-web-jsp-dependencies:"         + getProperty("terasoluna.version")
 	implementation "org.terasoluna.gfw:terasoluna-gfw-security-web-dependencies:"    + getProperty("terasoluna.version")
-	implementation "org.terasoluna.gfw:terasoluna-gfw-recommended-web-dependencies:" + getProperty("terasoluna.version")
+	implementation "org.terasoluna.gfw:terasoluna-gfw-jpa-dependencies:"             + getProperty("terasoluna.version")
 	implementation "org.springframework:spring-aop:"                                 + getProperty('org.springframework.version')
 	implementation "org.springframework:spring-aspects:"                             + getProperty('org.springframework.version')
 	implementation "org.springframework:spring-context:"                             + getProperty('org.springframework.version')
@@ -47,7 +47,17 @@ dependencies {
 	implementation "org.springframework.security:spring-security-taglibs:"           + getProperty('org.springframework.security.version')
 
 	implementation "org.apache.taglibs:taglibs-standard-jstlel:"             + getProperty("jstlel.version")
+	implementation "commons-io:commons-io:"                                  + getProperty("commons-io.version")
+	implementation "commons-beanutils:commons-beanutils:"                    + getProperty("commons-beanutils.version")
+	implementation "commons-logging:commons-logging:"                        + getProperty("commons-logging.version")
+	implementation "commons-collections:commons-collections:"                + getProperty("commons-collections.version")
+	implementation "org.apache.commons:commons-lang3:"                       + getProperty("commons-lang3.version")
+	implementation "org.apache.commons:commons-pool2:"                       + getProperty("commons-pool2.version")
+	
 	developmentOnly "org.apache.tomcat:tomcat-jsp-api:"                      + getProperty("tomcat.version")
+
+	annotationProcessor 'org.projectlombok:lombok:'                          + getProperty("lombok.version")
+	
 	testImplementation "junit:junit:"                                        + getProperty("junit.version")
 	testImplementation "org.hamcrest:hamcrest-core:"                         + getProperty("hamcrest.version")
 	testImplementation "org.hamcrest:hamcrest:"                              + getProperty("hamcrest.version")
