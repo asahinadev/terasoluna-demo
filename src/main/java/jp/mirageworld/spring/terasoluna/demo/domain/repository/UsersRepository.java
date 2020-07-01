@@ -11,9 +11,9 @@ import jp.mirageworld.spring.terasoluna.demo.domain.model.Users;
 
 @Repository
 public interface UsersRepository
-		extends JpaRepository<Users, Long> {
+		extends JpaRepository<Users, Integer> {
 
-	public Optional<Users> findByIdAndEnabledNot(Long id);
+	public Optional<Users> findByIdAndEnabledNot(Integer id);
 
 	public Optional<Users> findByUsernameAndEnabledNot(String username);
 

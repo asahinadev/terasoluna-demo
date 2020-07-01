@@ -1,0 +1,29 @@
+version: '3'
+services:
+  # DB
+  db:
+    image: mysql:8
+    # 再起動
+    restart: no
+    # 環境変数
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: spring-demo
+      MYSQL_DATABASE:      spring-demo
+      MYSQL_USER:          spring-demo
+      MYSQL_PASSWORD:      spring-demo
+    # 永続化は mysql のテーブルメタデータ
+    volumes:
+    - /var/lib/mysql
+    # バインドするポート
+    ports:
+    - 3306:3306
+
+  # DB 管理
+  adminer:
+    image: adminer
+    # 再起動
+    restart: no
+    # バインドするポート
+    ports:
+      - 30000:8080    

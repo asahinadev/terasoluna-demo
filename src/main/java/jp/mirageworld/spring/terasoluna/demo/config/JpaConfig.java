@@ -13,39 +13,25 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Configuration
 @EnableJpaAuditing
 @EnableJpaRepositories
 @PropertySource("database")
-public class BeanConfig {
+public class JpaConfig {
 
 	@Autowired
 	Environment env;
 
-	@Bean
-	@SneakyThrows
-	public DataSource dataSource() {
-
-		DriverManagerDataSource dataSource = new DriverManagerDataSource(
-				env.getProperty("database.url", "jdbc:h2:mem:test"),
-				env.getProperty("database.username", "sa"),
-				env.getProperty("database.password", ""));
-
-		if (env.containsProperty("database.catalog")) {
-			dataSource.setCatalog(env.getProperty("database.catalog"));
-		}
-		dataSource.setDriverClassName(env.getProperty("database.driver.class", "org.h2.Driver"));
-
-		return dataSource;
-	}
+	@Autowired
+	DataSource dataSource;
 
 	public Map<String, String> jpaProperties() {
 
@@ -60,6 +46,12 @@ public class BeanConfig {
 		defaultValue(properties, "hibernate.jdbc.batch_size", "30");
 		defaultValue(properties, "hibernate.jdbc.fetch_size", "100");
 
+		if (log.isTraceEnabled()) {
+			properties.entrySet().forEach(e -> {
+				log.trace("hibernate.properties {} = {}", e.getKey(), e.getValue());
+			});
+		}
+
 		return properties;
 	}
 
@@ -72,7 +64,7 @@ public class BeanConfig {
 		LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
 
 		bean.setPackagesToScan("jp.mirageworld.spring.terasoluna.demo");
-		bean.setDataSource(dataSource());
+		bean.setDataSource(dataSource);
 		bean.setJpaVendorAdapter(jpaVendorAdapter());
 		bean.setJpaPropertyMap(jpaProperties());
 
@@ -84,13 +76,9 @@ public class BeanConfig {
 
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 
-		String driver = env.getProperty("database.driver.class", "org.h2.Driver");
-		if (StringUtils.containsIgnoreCase(driver, "MYSQL")) {
+		String driver = env.getProperty("database.driver.class");
+		if (StringUtils.containsIgnoreCase(driver, "com.mysql")) {
 			adapter.setDatabase(Database.MYSQL);
-		} else if (StringUtils.containsIgnoreCase(driver, "POSTGRESQL")) {
-			adapter.setDatabase(Database.POSTGRESQL);
-		} else if (StringUtils.containsIgnoreCase(driver, "ORACLE")) {
-			adapter.setDatabase(Database.ORACLE);
 		} else {
 			adapter.setDatabase(Database.H2);
 		}

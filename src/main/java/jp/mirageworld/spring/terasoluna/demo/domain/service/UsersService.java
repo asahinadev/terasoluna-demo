@@ -74,7 +74,7 @@ public class UsersService {
 		usersRepository.delete(users);
 	}
 
-	public Optional<Users> findById(Long id) {
+	public Optional<Users> findById(Integer id) {
 		// 有効なアカウントから検索をする
 		return usersRepository.findByIdAndEnabledNot(id);
 	}
