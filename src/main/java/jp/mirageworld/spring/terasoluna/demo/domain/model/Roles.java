@@ -12,26 +12,37 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 
+import jp.mirageworld.spring.terasoluna.demo.validation.constraints.Code;
 import lombok.Data;
 
 @Data
 @Table(name = "roles", uniqueConstraints = {
 		@UniqueConstraint(columnNames = { "name" }),
+		@UniqueConstraint(columnNames = { "code" }),
 })
 @Entity(name = "roles")
 @SuppressWarnings("serial")
-public class Roles implements GrantedAuthority {
+public class Roles implements GrantedAuthority, BaseModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
+	@NotBlank
+	@Code
+	@UniqueElements
 	@Column(nullable = false, name = "code")
 	String authority;
 
+	@NotBlank
+	@Size(max = 50)
+	@UniqueElements
 	@Column(nullable = false, name = "name")
 	String name;
 

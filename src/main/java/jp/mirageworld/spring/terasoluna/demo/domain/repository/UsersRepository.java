@@ -1,5 +1,6 @@
 package jp.mirageworld.spring.terasoluna.demo.domain.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ public interface UsersRepository
 	public Optional<Users> findByUsernameAndEnabledNot(String username);
 
 	public Optional<Users> findByEmailAndEnabledNot(String email);
+
+	public List<Users> findAllByEnabled();
 
 	public Page<Users> findAllByEnabled(Pageable pageable);
 

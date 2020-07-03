@@ -45,7 +45,7 @@ import lombok.Data;
 @Entity(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 @SuppressWarnings("serial")
-public class Users implements UserDetails {
+public class Users implements UserDetails, BaseModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

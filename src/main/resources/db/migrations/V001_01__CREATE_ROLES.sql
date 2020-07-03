@@ -4,7 +4,8 @@ CREATE TABLE `roles` (
     `name` VARCHAR(255) NOT NULL                 COMMENT 'ロール' ,
 
     PRIMARY KEY (`id`),
-    UNIQUE `roles_name` (`name`)
+    UNIQUE `roles_name` (`name`),
+    UNIQUE `roles_name` (`code`)
 );
 
 INSERT INTO `roles` (`name`) VALUES ('SYSTEM');
