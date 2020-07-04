@@ -11,6 +11,9 @@ import org.springframework.context.annotation.DependsOn;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * マイグレーションの設定.
+ */
 @Slf4j
 @Configuration
 @DependsOn("dataSource")

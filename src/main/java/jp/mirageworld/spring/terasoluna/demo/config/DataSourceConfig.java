@@ -13,7 +13,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * データソースの設定.
+ */
+@Slf4j
 @Configuration
 @EnableJpaAuditing
 @EnableJpaRepositories
@@ -26,6 +31,7 @@ public class DataSourceConfig {
 	@Bean
 	@SneakyThrows
 	public DataSource dataSource() {
+		log.debug("bean");
 		if (env.containsProperty("database.jndi")) {
 			return new JndiDataSourceLookup().getDataSource(env.getProperty("database.jndi", "jdbc/terasoluna"));
 		} else {

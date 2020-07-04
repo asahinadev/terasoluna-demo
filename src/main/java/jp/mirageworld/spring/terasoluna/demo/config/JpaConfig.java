@@ -20,6 +20,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * JPA の設定.
+ */
 @Slf4j
 @Configuration
 @EnableJpaAuditing
@@ -33,40 +36,16 @@ public class JpaConfig {
 	@Autowired
 	DataSource dataSource;
 
-	public Map<String, String> jpaProperties() {
-
-		Map<String, String> properties = new HashMap<>();
-
-		defaultValue(properties, "hibernate.hbm2ddl.auto", "create");
-		defaultValue(properties, "hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
-		defaultValue(properties, "hibernate.connection.charSet", "UTF-8");
-		defaultValue(properties, "hibernate.show_sql", "false");
-		defaultValue(properties, "hibernate.format_sql", "false");
-		defaultValue(properties, "hibernate.use_sql_comments", "false");
-		defaultValue(properties, "hibernate.jdbc.batch_size", "30");
-		defaultValue(properties, "hibernate.jdbc.fetch_size", "100");
-
-		if (log.isTraceEnabled()) {
-			properties.entrySet().forEach(e -> {
-				log.trace("hibernate.properties {} = {}", e.getKey(), e.getValue());
-			});
-		}
-
-		return properties;
-	}
-
-	private void defaultValue(Map<String, String> properties, String key, String value) {
-		properties.put(key, env.getProperty(key, value));
-	}
-
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		log.debug("bean");
+
 		LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
 
 		bean.setPackagesToScan("jp.mirageworld.spring.terasoluna.demo");
 		bean.setDataSource(dataSource);
 		bean.setJpaVendorAdapter(jpaVendorAdapter());
-		bean.setJpaPropertyMap(jpaProperties());
+		bean.setJpaPropertyMap(properties());
 
 		return bean;
 
@@ -89,4 +68,31 @@ public class JpaConfig {
 		return adapter;
 
 	}
+
+	private Map<String, String> properties() {
+
+		Map<String, String> properties = new HashMap<>();
+
+		config(properties, "hibernate.hbm2ddl.auto", "create");
+		config(properties, "hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+		config(properties, "hibernate.connection.charSet", "UTF-8");
+		config(properties, "hibernate.show_sql", "false");
+		config(properties, "hibernate.format_sql", "false");
+		config(properties, "hibernate.use_sql_comments", "false");
+		config(properties, "hibernate.jdbc.batch_size", "30");
+		config(properties, "hibernate.jdbc.fetch_size", "100");
+
+		if (log.isTraceEnabled()) {
+			properties.entrySet().forEach(e -> {
+				log.trace("hibernate.properties {} = {}", e.getKey(), e.getValue());
+			});
+		}
+
+		return properties;
+	}
+
+	private void config(Map<String, String> properties, String key, String value) {
+		properties.put(key, env.getProperty(key, value));
+	}
+
 }
