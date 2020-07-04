@@ -3,8 +3,8 @@ services:
   # DB
   db:
     image: mysql:8
-    # 再起動
-    restart: no
+    # 再起動（標準として失敗時のみ）
+    restart: on-failure
     # 環境変数
     environment:
       TZ: Asia/Tokyo
@@ -12,7 +12,7 @@ services:
       MYSQL_DATABASE:      spring-demo
       MYSQL_USER:          spring-demo
       MYSQL_PASSWORD:      spring-demo
-    # 永続化は mysql のテーブルメタデータだが、テスト用なので・・・
+    # 基本ボリューム管理はしない
     # volumes:
     # - /var/lib/mysql
     # バインドするポート
@@ -22,8 +22,8 @@ services:
   # DB 管理
   adminer:
     image: adminer
-    # 再起動
-    restart: no
+    # 再起動（標準として失敗時のみ）
+    restart: on-failure
     # バインドするポート
     ports:
-      - 30000:8080    
+      - 9100:8080
