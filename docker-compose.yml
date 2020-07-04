@@ -12,9 +12,9 @@ services:
       MYSQL_DATABASE:      spring-demo
       MYSQL_USER:          spring-demo
       MYSQL_PASSWORD:      spring-demo
-    # 永続化は mysql のテーブルメタデータ
-    volumes:
-    - /var/lib/mysql
+    # 永続化は mysql のテーブルメタデータだが、テスト用なので・・・
+    # volumes:
+    # - /var/lib/mysql
     # バインドするポート
     ports:
     - 3306:3306
