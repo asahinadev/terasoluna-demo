@@ -24,18 +24,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jp.mirageworld.spring.terasoluna.demo.validation.constraints.Password;
 import jp.mirageworld.spring.terasoluna.demo.validation.constraints.Username;
+
 import lombok.Data;
 
 /**
- * <pre>
- * `id`       INT          NOT NULL AUTO_INCREMENT            COMMENT '識別番号' ,
- * `username` VARCHAR(255) NOT NULL                           COMMENT 'アカウント' ,
- * `email`    VARCHAR(255) NOT NULL                           COMMENT 'メールアドレス' ,
- * `password` VARCHAR(255) NOT NULL                           COMMENT 'パスワード' ,
- * `enabled`  BIT(1)       NOT NULL DEFAULT '0'               COMMENT '有効フラグ' ,
- * `created`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時' ,
- * `updated`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日時' , *
- * </pre>
+ * ユーザ管理テーブル。
  */
 @Data
 @Table(name = "users", uniqueConstraints = {
@@ -49,31 +42,35 @@ public class Users implements UserDetails, BaseModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false, insertable = true, updatable = false)
 	Integer id;
 
 	@NotBlank
 	@UniqueElements
 	@Username
+	@Column(nullable = false, length = 255, insertable = true, updatable = false)
 	String username;
 
 	@NotBlank
 	@UniqueElements
 	@Email
+	@Column(nullable = false, length = 255, insertable = true, updatable = true)
 	String email;
 
 	@NotBlank
 	@Password
+	@Column(nullable = false, length = 255, insertable = true, updatable = true)
 	String password;
 
-	@Column(nullable = false)
-	boolean enabled;
+	@Column(nullable = false, length = 1, insertable = true, updatable = true)
+	boolean enabled = false;
 
 	@CreatedDate
-	@Column(nullable = false)
+	@Column(nullable = false, insertable = true, updatable = false)
 	LocalDateTime created;
 
 	@LastModifiedDate
-	@Column(nullable = false)
+	@Column(nullable = false, insertable = true, updatable = false)
 	LocalDateTime updated;
 
 	@ManyToMany(mappedBy = "users")
