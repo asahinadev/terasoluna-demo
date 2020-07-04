@@ -1,13 +1,15 @@
+-- テーブル作成
 CREATE TABLE `roles` (
-    `id`   INT          NOT NULL AUTO_INCREMENT  COMMENT '識別番号' ,
-    `code` VARCHAR(255) NOT NULL                 COMMENT 'ロール' ,
-    `name` VARCHAR(255) NOT NULL                 COMMENT 'ロール' ,
-
-    PRIMARY KEY (`id`),
-    UNIQUE `roles_name` (`name`),
-    UNIQUE `roles_name` (`code`)
+    `id`   INT         NOT NULL AUTO_INCREMENT      COMMENT '識別番号' ,
+    `code` VARCHAR(50) NOT NULL CHARACTER SET ascii COMMENT '権限コード' ,
+    `name` VARCHAR(50) NOT NULL                     COMMENT '権限名' 
 );
 
-INSERT INTO `roles` (`name`) VALUES ('SYSTEM');
-INSERT INTO `roles` (`name`) VALUES ('ADMIN');
-INSERT INTO `roles` (`name`) VALUES ('USER');
+-- キー
+ALTER TABLE `roles` ADD PRIMARY KEY (`id`);
+ALTER TABLE `roles` ADD UNIQUE KEY `roles_code` USING HASH (`code`)
+
+-- 初期データ投入
+INSERT INTO `roles` (`code`,`name`) VALUES ('SYSTEM', 'システム管理者');
+INSERT INTO `roles` (`code`,`name`) VALUES ('ADMIN',  '管理者');
+INSERT INTO `roles` (`code`,`name`) VALUES ('USER',   '利用者');

@@ -19,11 +19,14 @@ import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 
 import jp.mirageworld.spring.terasoluna.demo.validation.constraints.Code;
+
 import lombok.Data;
 
+/**
+ * 権限管理テーブル。
+ */
 @Data
 @Table(name = "roles", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "name" }),
 		@UniqueConstraint(columnNames = { "code" }),
 })
 @Entity(name = "roles")
@@ -32,18 +35,18 @@ public class Roles implements GrantedAuthority, BaseModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, insertable = true, updatable = false)
 	Integer id;
 
 	@NotBlank
 	@Code
 	@UniqueElements
-	@Column(nullable = false, name = "code")
+	@Column(nullable = false, name = "code", length = 50, insertable = true, updatable = false)
 	String authority;
 
 	@NotBlank
 	@Size(max = 50)
-	@UniqueElements
-	@Column(nullable = false, name = "name")
+	@Column(nullable = false, name = "name", length = 50, insertable = true, updatable = true)
 	String name;
 
 	@ManyToMany
