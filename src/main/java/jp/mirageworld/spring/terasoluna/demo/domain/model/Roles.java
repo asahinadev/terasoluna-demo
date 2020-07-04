@@ -35,7 +35,6 @@ public class Roles implements GrantedAuthority, BaseModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, insertable = true, updatable = false)
 	Integer id;
 
 	@NotBlank

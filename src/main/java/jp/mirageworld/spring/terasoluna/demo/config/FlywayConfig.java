@@ -24,9 +24,14 @@ public class FlywayConfig implements InitializingBean {
 
 	@Bean
 	public Flyway flyway() {
+		log.debug("bean {}", "flyway");
+
 		return Flyway.configure()
 				.dataSource(dataSource)
+				// マイグレーションファイルのパス
 				.locations("classpath:/db/migrations")
+				// エラーバージョンは再実行
+				.cleanOnValidationError(true)
 				.load();
 	}
 

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -27,7 +28,11 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableJpaAuditing
 @EnableJpaRepositories
-@PropertySource("database")
+@DependsOn({
+		"dataSource",
+		"flyway"
+})
+@PropertySource("classpath:/database.properties")
 public class JpaConfig {
 
 	@Autowired
@@ -38,7 +43,7 @@ public class JpaConfig {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		log.debug("bean");
+		log.debug("bean {}", "entityManager");
 
 		LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
 

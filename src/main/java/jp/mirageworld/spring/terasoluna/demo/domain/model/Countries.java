@@ -25,31 +25,36 @@ import lombok.Data;
 		@UniqueConstraint(columnNames = { "code_2" }),
 		@UniqueConstraint(columnNames = { "code_3" }),
 })
-@Entity(name = "countries")
+@Entity
 @SuppressWarnings("serial")
 public class Countries implements BaseModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, insertable = true, updatable = false)
 	Integer id;
 
 	@NotBlank
-	@Code
+	@Code(max = 2)
 	@UniqueElements
-	@Column(nullable = false, name = "code_2", length = 2, insertable = true, updatable = false)
+	@Column(nullable = false, length = 2, name = "code_2",
+			insertable = true, updatable = false,
+			columnDefinition = "char(2)")
 	String code2;
 
 	@NotBlank
-	@Code
+	@Code(max = 3)
 	@UniqueElements
-	@Column(nullable = false, name = "code_3", length = 3, insertable = true, updatable = false)
+	@Column(nullable = false, length = 3, name = "code_3",
+			insertable = true, updatable = false,
+			columnDefinition = "char(3)")
 	String code3;
 
 	@NotBlank
-	@Code
+	@Code(max = 3)
 	@UniqueElements
-	@Column(nullable = false, name = "code", length = 3, insertable = true, updatable = false)
+	@Column(nullable = false, length = 3,
+			insertable = true, updatable = false,
+			columnDefinition = "char(3)")
 	String code;
 
 	@NotBlank

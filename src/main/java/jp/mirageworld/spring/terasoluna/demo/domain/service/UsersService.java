@@ -3,7 +3,6 @@ package jp.mirageworld.spring.terasoluna.demo.domain.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,14 +11,9 @@ import org.springframework.util.Assert;
 
 import jp.mirageworld.spring.terasoluna.demo.domain.model.Users;
 import jp.mirageworld.spring.terasoluna.demo.domain.repository.UsersRepository;
-import lombok.Getter;
 
 @Service
 public class UsersService extends BaseService<Users, UsersRepository, Integer> {
-
-	@Getter
-	@Autowired
-	UsersRepository repository;
 
 	public Optional<Users> findById(Integer id) {
 		// コーディングミスのチェック

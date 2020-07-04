@@ -41,8 +41,7 @@ import lombok.Data;
 public class Users implements UserDetails, BaseModel<Integer> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(nullable = false, insertable = true, updatable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
 	@NotBlank

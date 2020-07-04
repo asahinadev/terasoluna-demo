@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 
@@ -20,9 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Configuration
-@EnableJpaAuditing
-@EnableJpaRepositories
-@PropertySource("database")
+@PropertySource("classpath:/database.properties")
 public class DataSourceConfig {
 
 	@Autowired
@@ -31,7 +27,7 @@ public class DataSourceConfig {
 	@Bean
 	@SneakyThrows
 	public DataSource dataSource() {
-		log.debug("bean");
+		log.debug("bean {}", "dataSource");
 		if (env.containsProperty("database.jndi")) {
 			return new JndiDataSourceLookup().getDataSource(env.getProperty("database.jndi", "jdbc/terasoluna"));
 		} else {

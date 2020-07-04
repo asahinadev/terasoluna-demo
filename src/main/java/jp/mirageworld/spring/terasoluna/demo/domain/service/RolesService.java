@@ -1,27 +1,27 @@
 package jp.mirageworld.spring.terasoluna.demo.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import jp.mirageworld.spring.terasoluna.demo.domain.model.Roles;
 import jp.mirageworld.spring.terasoluna.demo.domain.repository.RolesRepository;
-import lombok.Getter;
-import lombok.Setter;
 
 @Service
 public class RolesService extends BaseService<Roles, RolesRepository, Integer> {
 
-	@Setter
-	int size = 20;
+	public Optional<Roles> findByCode(String code) {
+		// コーディングミスのチェック
+		Assert.notNull(code, "arguments error");
 
-	@Getter
-	@Autowired
-	RolesRepository repository;
+		// 検索をする
+		return getRepository().findByCode(code);
+	}
 
 	@Override
 	public List<Roles> findAll() {

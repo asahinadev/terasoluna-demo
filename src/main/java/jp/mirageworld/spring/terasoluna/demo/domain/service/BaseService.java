@@ -2,18 +2,23 @@ package jp.mirageworld.spring.terasoluna.demo.domain.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Validator;
 
 import jp.mirageworld.spring.terasoluna.demo.domain.model.BaseModel;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @param <E>
@@ -23,15 +28,19 @@ import lombok.Setter;
  * @param <ID>
  *                 {@link javax.persistence.Id}
  */
+@Slf4j
 public abstract class BaseService<E extends BaseModel<ID>, R extends JpaRepository<E, ID>, ID> {
 
 	@Setter
 	int size = 20;
 
-	@Autowired
+	@Getter(value = AccessLevel.PROTECTED)
+	@Setter
 	Validator validator;
 
-	abstract public R getRepository();
+	@Getter(value = AccessLevel.PROTECTED)
+	@Setter
+	R repository;
 
 	abstract public Page<E> findAll(int page, int size, Sort sort);
 
@@ -132,11 +141,14 @@ public abstract class BaseService<E extends BaseModel<ID>, R extends JpaReposito
 		Assert.notNull(entity, "arguments error");
 
 		// バリデータ
-		BindException result = new BindException(entity, "entity");
-		validator.validate(entity, result);
+		Set<ConstraintViolation<E>> errors = validator.validate(entity);
 
-		if (result.hasErrors()) {
-			throw result;
+		if (!errors.isEmpty()) {
+			for (ConstraintViolation<E> error : errors) {
+				// TODO
+				log.debug("{}", error);
+			}
+
 		}
 	}
 

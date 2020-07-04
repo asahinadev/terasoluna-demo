@@ -3,7 +3,6 @@ package jp.mirageworld.spring.terasoluna.demo.domain.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,18 +12,8 @@ import org.springframework.util.Assert;
 import jp.mirageworld.spring.terasoluna.demo.domain.model.Countries;
 import jp.mirageworld.spring.terasoluna.demo.domain.repository.CountriesRepository;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Service
 public class CountriesService extends BaseService<Countries, CountriesRepository, Integer> {
-
-	@Setter
-	int size = 20;
-
-	@Getter
-	@Autowired
-	CountriesRepository repository;
 
 	@Override
 	public List<Countries> findAll() {
