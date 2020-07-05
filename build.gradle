@@ -54,7 +54,7 @@ dependencies {
 	implementation "org.apache.commons:commons-lang3:"                       + getProperty("commons-lang3.version")
 	implementation "org.apache.commons:commons-pool2:"                       + getProperty("commons-pool2.version")
 	implementation "org.flywaydb:flyway-core:"                               + getProperty("flywaydb.version")
-	implementation "javax.el;javax.el-api:"                                  + getProperty("javax.el.version")
+#   implementation "javax.el;javax.el-api:"                                  + getProperty("javax.el.version")
 
 	implementation "mysql:mysql-connector-java:"                                + getProperty("mysql.version")
 	
